@@ -1,0 +1,1207 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Learn Python</title>
+        <meta name="robots" content="noindex">
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="chapter_1.html"><strong aria-hidden="true">1.</strong> Pengenalan dan Dasar-Dasar Python</a></li><li class="chapter-item expanded "><a href="chapter_2.html"><strong aria-hidden="true">2.</strong> Lanjutan Fundamental Python</a></li><li class="chapter-item expanded "><a href="chapter_3.html"><strong aria-hidden="true">3.</strong> Fungsi dan Modul dalam Python</a></li><li class="chapter-item expanded "><a href="chapter_4.html"><strong aria-hidden="true">4.</strong> OOP dalam Python</a></li><li class="chapter-item expanded "><a href="chapter_5.html"><strong aria-hidden="true">5.</strong> Module dan Package dalam Python</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Learn Python</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="pertemuan-1-pengenalan-dan-dasar-dasar-python"><a class="header" href="#pertemuan-1-pengenalan-dan-dasar-dasar-python">Pertemuan 1: Pengenalan dan Dasar-Dasar Python</a></h1>
+<h2 id="tujuan-pembelajaran"><a class="header" href="#tujuan-pembelajaran">Tujuan Pembelajaran</a></h2>
+<p>Pada akhir pertemuan ini, Anda diharapkan dapat:</p>
+<ul>
+<li>Memahami apa itu Python dan kelebihannya.</li>
+<li>Menginstal interpreter Python di komputer Anda.</li>
+<li>Membuat dan menjalankan program Python sederhana.</li>
+<li>Menggunakan variabel, operator, dan tipe data dasar dalam Python.</li>
+<li>Menulis komentar dalam kode Python.</li>
+</ul>
+<h2 id="materi-pembelajaran"><a class="header" href="#materi-pembelajaran">Materi Pembelajaran</a></h2>
+<h3 id="1-pengenalan-python"><a class="header" href="#1-pengenalan-python">1. Pengenalan Python</a></h3>
+<p><strong>Apa itu Python?</strong>
+Python adalah bahasa pemrograman tingkat tinggi yang dibuat oleh Guido van Rossum dan dirilis pertama kali pada tahun 1991. Python terkenal karena sintaksnya yang mudah dibaca dan dipelajari, serta dukungan komunitas yang besar.</p>
+<p><strong>Kelebihan Python:</strong></p>
+<ul>
+<li>Sederhana dan mudah dibaca.</li>
+<li>Memiliki banyak library dan framework yang membantu dalam pengembangan aplikasi.</li>
+<li>Digunakan dalam berbagai bidang seperti web development, data science, machine learning, dan banyak lagi.</li>
+</ul>
+<h3 id="2-menginstal-interpreter-python"><a class="header" href="#2-menginstal-interpreter-python">2. Menginstal Interpreter Python</a></h3>
+<p><strong>Langkah-langkah Instalasi:</strong></p>
+<ol>
+<li><strong>Kunjungi situs resmi Python:</strong> Buka <a href="https://www.python.org/">python.org</a>.</li>
+<li><strong>Unduh installer:</strong> Pilih installer yang sesuai dengan sistem operasi Anda (Windows, macOS, atau Linux).</li>
+<li><strong>Jalankan installer:</strong> Ikuti instruksi instalasi. Pastikan untuk mencentang opsi "Add Python to PATH" saat menginstal di Windows.</li>
+<li><strong>Verifikasi instalasi:</strong> Buka terminal atau command prompt dan ketik <code>python --version</code> untuk memastikan Python telah terinstal dengan benar.</li>
+</ol>
+<h3 id="3-memulai-pemrograman-python"><a class="header" href="#3-memulai-pemrograman-python">3. Memulai Pemrograman Python</a></h3>
+<p><strong>Menulis dan Menjalankan Script Python:</strong></p>
+<ol>
+<li>
+<p><strong>Buka text editor atau IDE:</strong> Anda dapat menggunakan editor teks sederhana seperti Notepad atau IDE seperti VSCode atau PyCharm.</p>
+</li>
+<li>
+<p><strong>Tulis script sederhana:</strong></p>
+<pre><code class="language-python">print("Hello, World!")
+</code></pre>
+</li>
+<li>
+<p><strong>Simpan file:</strong> Simpan file dengan ekstensi <code>.py</code>, misalnya <code>hello.py</code>.</p>
+</li>
+<li>
+<p><strong>Jalankan script:</strong> Buka terminal atau command prompt, navigasikan ke direktori tempat file disimpan, dan jalankan perintah <code>python hello.py</code>.</p>
+</li>
+</ol>
+<h3 id="4-variabel-operator-dan-tipe-data-numerik"><a class="header" href="#4-variabel-operator-dan-tipe-data-numerik">4. Variabel, Operator, dan Tipe Data Numerik</a></h3>
+<p><strong>Variabel:</strong>
+Variabel digunakan untuk menyimpan data. Contoh:</p>
+<pre><code class="language-python">x = 5
+y = 3.14
+name = "Alice"
+</code></pre>
+<p><strong>Operator:</strong>
+Operator digunakan untuk melakukan operasi pada variabel dan nilai. Contoh:</p>
+<pre><code class="language-python">sum = x + y
+product = x * y
+</code></pre>
+<p><strong>Tipe Data Numerik:</strong>
+Python memiliki beberapa tipe data numerik seperti integer (int), float, dan complex. Contoh:</p>
+<pre><code class="language-python">a = 10        # integer
+b = 20.5      # float
+c = 1 + 2j    # complex
+</code></pre>
+<h3 id="5-penugasan-variabel-string-dan-komentar"><a class="header" href="#5-penugasan-variabel-string-dan-komentar">5. Penugasan Variabel, String, dan Komentar</a></h3>
+<p><strong>Penugasan Variabel:</strong>
+Penugasan variabel adalah proses memberi nilai pada variabel. Contoh:</p>
+<pre><code class="language-python">message = "Hello, Python!"
+age = 25
+</code></pre>
+<p><strong>Manipulasi String:</strong>
+String adalah urutan karakter. Anda dapat menggabungkan string menggunakan operator <code>+</code>. Contoh:</p>
+<pre><code class="language-python">full_name = "Alice" + " " + "Smith"
+</code></pre>
+<p><strong>Komentar:</strong>
+Komentar adalah teks yang tidak dieksekusi oleh interpreter Python dan digunakan untuk menjelaskan kode. Contoh:</p>
+<pre><code class="language-python"># Ini adalah komentar
+print("Komentar tidak akan dijalankan oleh interpreter")
+</code></pre>
+<h4 id="aktivitas-pembelajaran"><a class="header" href="#aktivitas-pembelajaran">Aktivitas Pembelajaran</a></h4>
+<p><strong>Latihan Praktik:</strong>
+Buat script Python sederhana untuk menghitung luas persegi panjang:</p>
+<pre><code class="language-python">panjang = 5
+lebar = 3
+luas = panjang * lebar
+print("Luas persegi panjang adalah:", luas)
+</code></pre>
+<p><strong>Tugas Rumah:</strong>
+Tulis script Python yang menghitung luas dan keliling lingkaran dengan radius yang diberikan.</p>
+<pre><code class="language-python">radius = 7
+luas = 3.14 * radius * radius
+keliling = 2 * 3.14 * radius
+print("Luas lingkaran adalah:", luas)
+print("Keliling lingkaran adalah:", keliling)
+</code></pre>
+<h4 id="referensi-tambahan"><a class="header" href="#referensi-tambahan">Referensi Tambahan</a></h4>
+<ul>
+<li><a href="https://docs.python.org/3/">Dokumentasi Resmi Python</a></li>
+<li><a href="https://www.w3schools.com/python/">Tutorial Dasar Python</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="pertemuan-2-lanjutan-fundamental-python"><a class="header" href="#pertemuan-2-lanjutan-fundamental-python">Pertemuan 2: Lanjutan Fundamental Python</a></h1>
+<h2 id="tujuan-pembelajaran-1"><a class="header" href="#tujuan-pembelajaran-1">Tujuan Pembelajaran</a></h2>
+<p>Pada akhir pertemuan ini, Anda diharapkan dapat:</p>
+<ul>
+<li>Menulis program Python dalam file.</li>
+<li>Menggunakan list, tuple, set, dan dictionary.</li>
+<li>Memahami dan mengimplementasikan perulangan.</li>
+<li>Menggunakan kondisi if, elif, dan else.</li>
+<li>Memahami dan menggunakan perintah break dan continue.</li>
+</ul>
+<h2 id="materi-pembelajaran-1"><a class="header" href="#materi-pembelajaran-1">Materi Pembelajaran</a></h2>
+<h3 id="1-menulis-program-dalam-file"><a class="header" href="#1-menulis-program-dalam-file">1. Menulis Program dalam File</a></h3>
+<p><strong>Menulis dan Menjalankan Program:</strong></p>
+<ul>
+<li>
+<p>Program Python dapat ditulis dalam file dengan ekstensi <code>.py</code>.</p>
+</li>
+<li>
+<p>Contoh program sederhana:</p>
+<pre><code class="language-python">def greet(name):
+    return f"Hello, {name}!"
+
+print(greet("World"))
+</code></pre>
+</li>
+</ul>
+<h3 id="2-list-tuple-set-dan-dictionary"><a class="header" href="#2-list-tuple-set-dan-dictionary">2. List, Tuple, Set, dan Dictionary</a></h3>
+<p><strong>List:</strong></p>
+<ul>
+<li>
+<p>List adalah koleksi terurut yang dapat diubah.</p>
+</li>
+<li>
+<p>Contoh:</p>
+<pre><code class="language-python">fruits = ["apple", "banana", "cherry"]
+print(fruits[0])  # Output: apple
+fruits.append("orange")
+print(fruits)  # Output: ['apple', 'banana', 'cherry', 'orange']
+</code></pre>
+</li>
+</ul>
+<p><strong>Tuple:</strong></p>
+<ul>
+<li>
+<p>Tuple adalah koleksi terurut yang tidak dapat diubah.</p>
+</li>
+<li>
+<p>Contoh:</p>
+<pre><code class="language-python">numbers = (1, 2, 3)
+print(numbers[1])  # Output: 2
+</code></pre>
+</li>
+</ul>
+<p><strong>Set:</strong></p>
+<ul>
+<li>
+<p>Set adalah koleksi tidak terurut dan tidak memiliki elemen yang duplikat.</p>
+</li>
+<li>
+<p>Contoh:</p>
+<pre><code class="language-python">unique_numbers = {1, 2, 3, 4, 4, 4}
+print(unique_numbers)  # Output: {1, 2, 3, 4}
+</code></pre>
+</li>
+</ul>
+<p><strong>Dictionary:</strong></p>
+<ul>
+<li>
+<p>Dictionary adalah koleksi pasangan kunci-nilai.</p>
+</li>
+<li>
+<p>Contoh:</p>
+<pre><code class="language-python">person = {
+    "name": "John",
+    "age": 30
+}
+print(person["name"])  # Output: John
+person["age"] = 31
+print(person)  # Output: {'name': 'John', 'age': 31}
+</code></pre>
+</li>
+</ul>
+<h3 id="3-perulangan"><a class="header" href="#3-perulangan">3. Perulangan</a></h3>
+<p><strong>For Loop:</strong></p>
+<ul>
+<li>
+<p>Digunakan untuk mengulang item dalam koleksi (list, tuple, set, dictionary).</p>
+</li>
+<li>
+<p>Contoh:</p>
+<pre><code class="language-python">fruits = ["apple", "banana", "cherry"]
+for fruit in fruits:
+    print(fruit)
+</code></pre>
+</li>
+</ul>
+<p><strong>While Loop:</strong></p>
+<ul>
+<li>
+<p>Digunakan untuk mengulang selama kondisi tertentu terpenuhi.</p>
+</li>
+<li>
+<p>Contoh:</p>
+<pre><code class="language-python">count = 0
+while count &lt; 5:
+    print(count)
+    count += 1
+</code></pre>
+</li>
+</ul>
+<h3 id="4-pengadilan-kondisi"><a class="header" href="#4-pengadilan-kondisi">4. Pengadilan Kondisi</a></h3>
+<p><strong>If, Elif, dan Else:</strong></p>
+<ul>
+<li>
+<p>Digunakan untuk membuat keputusan berdasarkan kondisi.</p>
+</li>
+<li>
+<p>Contoh:</p>
+<pre><code class="language-python">age = 18
+if age &lt; 18:
+    print("Minor")
+elif age == 18:
+    print("Just turned adult")
+else:
+    print("Adult")
+</code></pre>
+</li>
+</ul>
+<h3 id="5-break-dan-continue"><a class="header" href="#5-break-dan-continue">5. Break dan Continue</a></h3>
+<p><strong>Break:</strong></p>
+<ul>
+<li>
+<p>Digunakan untuk menghentikan loop sebelum waktunya.</p>
+</li>
+<li>
+<p>Contoh:</p>
+<pre><code class="language-python">for i in range(10):
+    if i == 5:
+        break
+    print(i)
+# Output: 0 1 2 3 4
+</code></pre>
+</li>
+</ul>
+<p><strong>Continue:</strong></p>
+<ul>
+<li>
+<p>Digunakan untuk melewati iterasi saat ini dan melanjutkan ke iterasi berikutnya.</p>
+</li>
+<li>
+<p>Contoh:</p>
+<pre><code class="language-python">for i in range(10):
+    if i % 2 == 0:
+        continue
+    print(i)
+# Output: 1 3 5 7 9
+</code></pre>
+</li>
+</ul>
+<h4 id="aktivitas-pembelajaran-1"><a class="header" href="#aktivitas-pembelajaran-1">Aktivitas Pembelajaran</a></h4>
+<p><strong>Latihan Praktik:</strong></p>
+<ol>
+<li>Buat list berisi nama-nama buah dan tampilkan setiap buah menggunakan perulangan for.</li>
+<li>Buat program yang menerima input angka dan menentukan apakah angka tersebut ganjil atau genap menggunakan kondisi if-else.</li>
+</ol>
+<p><strong>Tugas Rumah:</strong></p>
+<ol>
+<li>Buat dictionary yang berisi data diri Anda (nama, usia, pekerjaan) dan tampilkan setiap informasi menggunakan perulangan for.</li>
+<li>Buat program yang menerima input angka dan menghitung faktorial dari angka tersebut menggunakan perulangan while.</li>
+</ol>
+<h4 id="referensi-tambahan-1"><a class="header" href="#referensi-tambahan-1">Referensi Tambahan</a></h4>
+<ul>
+<li><a href="https://docs.python.org/3/tutorial/datastructures.html#more-on-lists">Dokumentasi Resmi Python tentang List</a></li>
+<li><a href="https://docs.python.org/3/tutorial/datastructures.html#dictionaries">Dokumentasi Resmi Python tentang Dictionary</a></li>
+<li><a href="https://www.w3schools.com/python/python_for_loops.asp">Tutorial Python tentang Perulangan</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="pertemuan-3-fungsi-dan-modul-dalam-python"><a class="header" href="#pertemuan-3-fungsi-dan-modul-dalam-python">Pertemuan 3: Fungsi dan Modul dalam Python</a></h1>
+<h2 id="tujuan-pembelajaran-2"><a class="header" href="#tujuan-pembelajaran-2">Tujuan Pembelajaran</a></h2>
+<p>Pada akhir pertemuan ini, Anda diharapkan dapat:</p>
+<ul>
+<li>Memahami konsep fungsi dalam Python.</li>
+<li>Membuat dan memanggil fungsi.</li>
+<li>Mendesain program menggunakan fungsi.</li>
+<li>Menggunakan fungsi dengan argumen.</li>
+<li>Memahami variabel lokal dan global.</li>
+</ul>
+<h2 id="materi-pembelajaran-2"><a class="header" href="#materi-pembelajaran-2">Materi Pembelajaran</a></h2>
+<h3 id="1-pengenalan-fungsi"><a class="header" href="#1-pengenalan-fungsi">1. Pengenalan Fungsi</a></h3>
+<p><strong>Apa itu Fungsi?</strong></p>
+<ul>
+<li>Fungsi adalah blok kode yang dirancang untuk melakukan tugas tertentu.</li>
+<li>Fungsi membantu mengorganisir kode, membuatnya lebih modular dan dapat digunakan kembali.</li>
+</ul>
+<h3 id="2-definisi-dan-pemanggilan-fungsi"><a class="header" href="#2-definisi-dan-pemanggilan-fungsi">2. Definisi dan Pemanggilan Fungsi</a></h3>
+<p><strong>Mendefinisikan Fungsi:</strong></p>
+<ul>
+<li>
+<p>Fungsi didefinisikan menggunakan kata kunci <code>def</code> diikuti oleh nama fungsi dan tanda kurung.</p>
+</li>
+<li>
+<p>Contoh:</p>
+<pre><code class="language-python">def greet(name):
+    return f"Hello, {name}!"
+</code></pre>
+</li>
+</ul>
+<p><strong>Memanggil Fungsi:</strong></p>
+<ul>
+<li>
+<p>Fungsi dipanggil dengan menulis nama fungsi diikuti oleh tanda kurung.</p>
+</li>
+<li>
+<p>Contoh:</p>
+<pre><code class="language-python">message = greet("Alice")
+print(message)  # Output: Hello, Alice!
+</code></pre>
+</li>
+</ul>
+<h3 id="3-mendesain-program-menggunakan-fungsi"><a class="header" href="#3-mendesain-program-menggunakan-fungsi">3. Mendesain Program Menggunakan Fungsi</a></h3>
+<p><strong>Membagi Program ke dalam Fungsi:</strong></p>
+<ul>
+<li>
+<p>Program besar dapat dibagi menjadi beberapa fungsi kecil untuk meningkatkan keterbacaan dan pemeliharaan.</p>
+</li>
+<li>
+<p>Contoh:</p>
+<pre><code class="language-python">def input_data():
+    name = input("Enter your name: ")
+    age = int(input("Enter your age: "))
+    return name, age
+
+def display_data(name, age):
+    print(f"Name: {name}")
+    print(f"Age: {age}")
+
+name, age = input_data()
+display_data(name, age)
+</code></pre>
+</li>
+</ul>
+<h3 id="4-fungsi-dengan-argumen"><a class="header" href="#4-fungsi-dengan-argumen">4. Fungsi dengan Argumen</a></h3>
+<p><strong>Argumen Posisi:</strong></p>
+<ul>
+<li>
+<p>Argumen yang diteruskan ke fungsi sesuai dengan posisinya.</p>
+</li>
+<li>
+<p>Contoh:</p>
+<pre><code class="language-python">def multiply(a, b):
+    return a * b
+
+result = multiply(5, 3)
+print(result)  # Output: 15
+</code></pre>
+</li>
+</ul>
+<p><strong>Argumen Kata Kunci:</strong></p>
+<ul>
+<li>
+<p>Argumen yang diteruskan dengan menyebutkan nama parameternya.</p>
+</li>
+<li>
+<p>Contoh:</p>
+<pre><code class="language-python">def greet(name, message="Hello"):
+    return f"{message}, {name}!"
+
+print(greet("Alice"))          # Output: Hello, Alice!
+print(greet("Bob", "Hi"))      # Output: Hi, Bob!
+</code></pre>
+</li>
+</ul>
+<h3 id="5-variabel-lokal-dan-global"><a class="header" href="#5-variabel-lokal-dan-global">5. Variabel Lokal dan Global</a></h3>
+<p><strong>Variabel Lokal:</strong></p>
+<ul>
+<li>
+<p>Variabel yang didefinisikan di dalam fungsi dan hanya dapat diakses di dalam fungsi tersebut.</p>
+</li>
+<li>
+<p>Contoh:</p>
+<pre><code class="language-python">def func():
+    x = 10  # variabel lokal
+    print(x)
+
+func()
+print(x)  # Error: NameError, karena x tidak didefinisikan di sini
+</code></pre>
+</li>
+</ul>
+<p><strong>Variabel Global:</strong></p>
+<ul>
+<li>
+<p>Variabel yang didefinisikan di luar semua fungsi dan dapat diakses di seluruh program.</p>
+</li>
+<li>
+<p>Contoh:</p>
+<pre><code class="language-python">x = 10  # variabel global
+
+def func():
+    global x
+    x = 20
+    print(x)
+
+func()
+print(x)  # Output: 20
+</code></pre>
+</li>
+</ul>
+<h3 id="aktivitas-pembelajaran-2"><a class="header" href="#aktivitas-pembelajaran-2">Aktivitas Pembelajaran</a></h3>
+<p><strong>Latihan Praktik:</strong></p>
+<ol>
+<li>
+<p>Buat fungsi <code>factorial</code> yang menerima satu argumen dan mengembalikan faktorial dari angka tersebut.</p>
+<pre><code class="language-python">def factorial(n):
+    if n == 0:
+        return 1
+    else:
+        return n * factorial(n-1)
+
+print(factorial(5))  # Output: 120
+</code></pre>
+</li>
+<li>
+<p>Buat fungsi <code>is_prime</code> yang menerima satu argumen dan mengembalikan True jika angka tersebut adalah bilangan prima, dan False jika tidak.</p>
+<pre><code class="language-python">def is_prime(n):
+    if n &lt;= 1:
+        return False
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+print(is_prime(7))  # Output: True
+</code></pre>
+</li>
+</ol>
+<p><strong>Tugas Rumah:</strong></p>
+<ol>
+<li>
+<p>Buat program yang memiliki fungsi untuk menerima daftar angka dan mengembalikan jumlah dari angka-angka tersebut.</p>
+<pre><code class="language-python">def sum_list(numbers):
+    total = 0
+    for num in numbers:
+        total += num
+    return total
+
+print(sum_list([1, 2, 3, 4, 5]))  # Output: 15
+</code></pre>
+</li>
+<li>
+<p>Buat fungsi <code>fibonacci</code> yang menerima satu argumen dan mengembalikan deret Fibonacci hingga angka tersebut.</p>
+<pre><code class="language-python">def fibonacci(n):
+    fib_sequence = [0, 1]
+    while len(fib_sequence) &lt; n:
+        fib_sequence.append(fib_sequence[-1] + fib_sequence[-2])
+    return fib_sequence
+
+print(fibonacci(10))  # Output: [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
+</code></pre>
+</li>
+</ol>
+<h4 id="referensi-tambahan-2"><a class="header" href="#referensi-tambahan-2">Referensi Tambahan</a></h4>
+<ul>
+<li><a href="https://docs.python.org/3/tutorial/controlflow.html#defining-functions">Dokumentasi Resmi Python tentang Fungsi</a></li>
+<li><a href="https://www.w3schools.com/python/python_functions.asp">Tutorial Python tentang Fungsi</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="pertemuan-4-pemrograman-berorientasi-objek-oop-dalam-python"><a class="header" href="#pertemuan-4-pemrograman-berorientasi-objek-oop-dalam-python">Pertemuan 4: Pemrograman Berorientasi Objek (OOP) dalam Python</a></h1>
+<h2 id="tujuan-pembelajaran-3"><a class="header" href="#tujuan-pembelajaran-3">Tujuan Pembelajaran</a></h2>
+<p>Pada akhir pertemuan ini, Anda diharapkan dapat:</p>
+<ul>
+<li>Memahami konsep dasar Pemrograman Berorientasi Objek (OOP).</li>
+<li>Membuat kelas dan objek dalam Python.</li>
+<li>Menggunakan atribut dan metode dalam kelas.</li>
+<li>Memahami dan menggunakan konsep inheritance (pewarisan).</li>
+<li>Menggunakan encapsulation dan polymorphism.</li>
+</ul>
+<h2 id="materi-pembelajaran-3"><a class="header" href="#materi-pembelajaran-3">Materi Pembelajaran</a></h2>
+<h3 id="1-pengenalan-pemrograman-berorientasi-objek-oop"><a class="header" href="#1-pengenalan-pemrograman-berorientasi-objek-oop">1. Pengenalan Pemrograman Berorientasi Objek (OOP)</a></h3>
+<p><strong>Apa itu OOP?</strong></p>
+<ul>
+<li>OOP adalah paradigma pemrograman yang menggunakan "objek" untuk merepresentasikan data dan metode.</li>
+<li>Konsep utama dalam OOP: Kelas, Objek, Atribut, Metode, Pewarisan, Enkapsulasi, dan Polimorfisme.</li>
+</ul>
+<h3 id="2-membuat-kelas-dan-objek"><a class="header" href="#2-membuat-kelas-dan-objek">2. Membuat Kelas dan Objek</a></h3>
+<p><strong>Kelas dan Objek:</strong></p>
+<ul>
+<li>
+<p>Kelas adalah blueprint untuk membuat objek.</p>
+</li>
+<li>
+<p>Objek adalah instance dari kelas.</p>
+</li>
+<li>
+<p>Contoh:</p>
+<pre><code class="language-python">class Dog:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def bark(self):
+        return f"{self.name} says woof!"
+
+my_dog = Dog("Buddy", 3)
+print(my_dog.name)  # Output: Buddy
+print(my_dog.bark())  # Output: Buddy says woof!
+</code></pre>
+</li>
+</ul>
+<h3 id="3-atribut-dan-metode"><a class="header" href="#3-atribut-dan-metode">3. Atribut dan Metode</a></h3>
+<p><strong>Atribut:</strong></p>
+<ul>
+<li>
+<p>Atribut adalah variabel yang dimiliki oleh objek.</p>
+</li>
+<li>
+<p>Contoh:</p>
+<pre><code class="language-python">class Car:
+    def __init__(self, make, model):
+        self.make = make
+        self.model = model
+
+my_car = Car("Toyota", "Corolla")
+print(my_car.make)  # Output: Toyota
+</code></pre>
+</li>
+</ul>
+<p><strong>Metode:</strong></p>
+<ul>
+<li>
+<p>Metode adalah fungsi yang dimiliki oleh objek.</p>
+</li>
+<li>
+<p>Contoh:</p>
+<pre><code class="language-python">class Car:
+    def __init__(self, make, model):
+        self.make = make
+        self.model = model
+
+    def description(self):
+        return f"{self.make} {self.model}"
+
+my_car = Car("Toyota", "Corolla")
+print(my_car.description())  # Output: Toyota Corolla
+</code></pre>
+</li>
+</ul>
+<h3 id="4-pewarisan-inheritance"><a class="header" href="#4-pewarisan-inheritance">4. Pewarisan (Inheritance)</a></h3>
+<p><strong>Pewarisan:</strong></p>
+<ul>
+<li>
+<p>Pewarisan memungkinkan satu kelas mewarisi atribut dan metode dari kelas lain.</p>
+</li>
+<li>
+<p>Contoh:</p>
+<pre><code class="language-python">class Animal:
+    def __init__(self, name):
+        self.name = name
+
+    def speak(self):
+        pass
+
+class Dog(Animal):
+    def speak(self):
+        return f"{self.name} says woof!"
+
+my_dog = Dog("Buddy")
+print(my_dog.speak())  # Output: Buddy says woof!
+</code></pre>
+</li>
+</ul>
+<h3 id="5-enkapsulasi-dan-polimorfisme"><a class="header" href="#5-enkapsulasi-dan-polimorfisme">5. Enkapsulasi dan Polimorfisme</a></h3>
+<p><strong>Enkapsulasi:</strong></p>
+<ul>
+<li>
+<p>Enkapsulasi menyembunyikan detail implementasi dari pengguna.</p>
+</li>
+<li>
+<p>Contoh:</p>
+<pre><code class="language-python">class Person:
+    def __init__(self, name, age):
+        self.__name = name  # Private attribute
+        self.__age = age    # Private attribute
+
+    def get_info(self):
+        return f"Name: {self.__name}, Age: {self.__age}"
+
+person = Person("Alice", 30)
+print(person.get_info())  # Output: Name: Alice, Age: 30
+</code></pre>
+</li>
+</ul>
+<p><strong>Polimorfisme:</strong></p>
+<ul>
+<li>
+<p>Polimorfisme memungkinkan metode yang sama berperilaku berbeda pada objek yang berbeda.</p>
+</li>
+<li>
+<p>Contoh:</p>
+<pre><code class="language-python">class Bird:
+    def speak(self):
+        return "Tweet"
+
+class Cat:
+    def speak(self):
+        return "Meow"
+
+def animal_sound(animal):
+    print(animal.speak())
+
+bird = Bird()
+cat = Cat()
+animal_sound(bird)  # Output: Tweet
+animal_sound(cat)  # Output: Meow
+</code></pre>
+</li>
+</ul>
+<h3 id="aktivitas-pembelajaran-3"><a class="header" href="#aktivitas-pembelajaran-3">Aktivitas Pembelajaran</a></h3>
+<p><strong>Latihan Praktik:</strong></p>
+<ol>
+<li>
+<p>Buat kelas <code>Student</code> dengan atribut <code>name</code> dan <code>grade</code>, serta metode <code>get_grade</code> yang mengembalikan nilai siswa.</p>
+<pre><code class="language-python">class Student:
+    def __init__(self, name, grade):
+        self.name = name
+        self.grade = grade
+
+    def get_grade(self):
+        return self.grade
+
+student = Student("Alice", "A")
+print(student.get_grade())  # Output: A
+</code></pre>
+</li>
+<li>
+<p>Buat kelas <code>Teacher</code> yang mewarisi dari kelas <code>Person</code>, dengan atribut tambahan <code>subject</code> dan metode <code>teach</code>.</p>
+<pre><code class="language-python">class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+class Teacher(Person):
+    def __init__(self, name, age, subject):
+        super().__init__(name, age)
+        self.subject = subject
+
+    def teach(self):
+        return f"{self.name} is teaching {self.subject}"
+
+teacher = Teacher("Mr. Smith", 40, "Math")
+print(teacher.teach())  # Output: Mr. Smith is teaching Math
+</code></pre>
+</li>
+</ol>
+<p><strong>Tugas Rumah:</strong></p>
+<ol>
+<li>
+<p>Buat kelas <code>BankAccount</code> dengan atribut <code>owner</code> dan <code>balance</code>, serta metode <code>deposit</code> dan <code>withdraw</code>.</p>
+<pre><code class="language-python">class BankAccount:
+    def __init__(self, owner, balance=0):
+        self.owner = owner
+        self.balance = balance
+
+    def deposit(self, amount):
+        self.balance += amount
+        return self.balance
+
+    def withdraw(self, amount):
+        if amount &gt; self.balance:
+            return "Insufficient funds"
+        else:
+            self.balance -= amount
+            return self.balance
+
+account = BankAccount("John", 100)
+print(account.deposit(50))  # Output: 150
+print(account.withdraw(30))  # Output: 120
+</code></pre>
+</li>
+<li>
+<p>Buat kelas <code>Rectangle</code> dan <code>Square</code> yang mewarisi dari kelas <code>Shape</code>, dengan metode untuk menghitung luas dan keliling.</p>
+<pre><code class="language-python">class Shape:
+    def area(self):
+        pass
+
+    def perimeter(self):
+        pass
+
+class Rectangle(Shape):
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+
+    def area(self):
+        return self.width * self.height
+
+    def perimeter(self):
+        return 2 * (self.width + self.height)
+
+class Square(Shape):
+    def __init__(self, side):
+        self.side = side
+
+    def area(self):
+        return self.side * self.side
+
+    def perimeter(self):
+        return 4 * self.side
+
+rectangle = Rectangle(5, 10)
+square = Square(4)
+print(rectangle.area())  # Output: 50
+print(rectangle.perimeter())  # Output: 30
+print(square.area())  # Output: 16
+print(square.perimeter())  # Output: 16
+</code></pre>
+</li>
+</ol>
+<h4 id="referensi-tambahan-3"><a class="header" href="#referensi-tambahan-3">Referensi Tambahan</a></h4>
+<ul>
+<li><a href="https://docs.python.org/3/tutorial/classes.html">Dokumentasi Resmi Python tentang OOP</a></li>
+<li><a href="https://www.w3schools.com/python/python_classes.asp">Tutorial Python tentang OOP</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="pertemuan-5-penggunaan-modul-dan-paket-dalam-python"><a class="header" href="#pertemuan-5-penggunaan-modul-dan-paket-dalam-python">Pertemuan 5: Penggunaan Modul dan Paket dalam Python</a></h1>
+<h2 id="tujuan-pembelajaran-4"><a class="header" href="#tujuan-pembelajaran-4">Tujuan Pembelajaran</a></h2>
+<p>Pada akhir pertemuan ini, Anda diharapkan dapat:</p>
+<ul>
+<li>Memahami konsep modul dan paket dalam Python.</li>
+<li>Mengimpor modul built-in dan eksternal.</li>
+<li>Membuat dan mengimpor modul sendiri.</li>
+<li>Menggunakan paket untuk mengorganisir modul.</li>
+<li>Memahami dan menggunakan virtual environment.</li>
+</ul>
+<h2 id="materi-pembelajaran-4"><a class="header" href="#materi-pembelajaran-4">Materi Pembelajaran</a></h2>
+<h3 id="1-pengantar-modul-dan-paket"><a class="header" href="#1-pengantar-modul-dan-paket">1. Pengantar Modul dan Paket</a></h3>
+<p><strong>Apa itu Modul?</strong></p>
+<ul>
+<li>Modul adalah file yang berisi kode Python seperti fungsi, kelas, atau variabel yang dapat diimpor ke dalam program lain.</li>
+<li>Modul membantu memisahkan kode ke dalam bagian yang lebih kecil dan dapat digunakan kembali.</li>
+</ul>
+<p><strong>Apa itu Paket?</strong></p>
+<ul>
+<li>Paket adalah koleksi modul yang terorganisir dalam direktori dengan file <code>__init__.py</code>.</li>
+<li>Paket memungkinkan pengorganisasian modul ke dalam hierarki direktori.</li>
+</ul>
+<h3 id="2-mengimpor-modul-built-in"><a class="header" href="#2-mengimpor-modul-built-in">2. Mengimpor Modul Built-in</a></h3>
+<p><strong>Mengimpor Modul Built-in:</strong></p>
+<ul>
+<li>
+<p>Python menyediakan banyak modul built-in yang dapat langsung digunakan.</p>
+</li>
+<li>
+<p>Contoh:</p>
+<pre><code class="language-python">import math
+
+print(math.sqrt(16))  # Output: 4.0
+print(math.pi)  # Output: 3.141592653589793
+</code></pre>
+</li>
+</ul>
+<p><strong>Mengimpor Fungsi atau Kelas dari Modul:</strong></p>
+<ul>
+<li>
+<p>Anda dapat mengimpor fungsi atau kelas tertentu dari modul.</p>
+</li>
+<li>
+<p>Contoh:</p>
+<pre><code class="language-python">from math import sqrt, pi
+
+print(sqrt(25))  # Output: 5.0
+print(pi)  # Output: 3.141592653589793
+</code></pre>
+</li>
+</ul>
+<h3 id="3-membuat-dan-mengimpor-modul-sendiri"><a class="header" href="#3-membuat-dan-mengimpor-modul-sendiri">3. Membuat dan Mengimpor Modul Sendiri</a></h3>
+<p><strong>Membuat Modul:</strong></p>
+<ul>
+<li>
+<p>Modul dibuat dengan menyimpan kode Python ke dalam file dengan ekstensi <code>.py</code>.</p>
+</li>
+<li>
+<p>Contoh <code>mymodule.py</code>:</p>
+<pre><code class="language-python">def greet(name):
+    return f"Hello, {name}!"
+
+def farewell(name):
+    return f"Goodbye, {name}!"
+</code></pre>
+</li>
+</ul>
+<p><strong>Mengimpor Modul Sendiri:</strong></p>
+<ul>
+<li>
+<p>Modul yang dibuat dapat diimpor ke dalam program lain.</p>
+</li>
+<li>
+<p>Contoh:</p>
+<pre><code class="language-python">import mymodule
+
+print(mymodule.greet("Alice"))  # Output: Hello, Alice!
+print(mymodule.farewell("Bob"))  # Output: Goodbye, Bob!
+</code></pre>
+</li>
+</ul>
+<h3 id="4-menggunakan-paket"><a class="header" href="#4-menggunakan-paket">4. Menggunakan Paket</a></h3>
+<p><strong>Membuat Paket:</strong></p>
+<ul>
+<li>
+<p>Paket dibuat dengan membuat direktori dan menambahkan file <code>__init__.py</code> di dalamnya.</p>
+</li>
+<li>
+<p>Contoh struktur paket:</p>
+<pre><code class="language-python">mypackage/
+    __init__.py
+    module1.py
+    module2.py
+</code></pre>
+</li>
+</ul>
+<p><strong>Mengimpor Modul dari Paket:</strong></p>
+<ul>
+<li>
+<p>Modul dalam paket dapat diimpor menggunakan notasi titik.</p>
+</li>
+<li>
+<p>Contoh:</p>
+<pre><code class="language-python">from mypackage import module1, module2
+
+print(module1.function1())
+print(module2.function2())
+</code></pre>
+</li>
+</ul>
+<h3 id="5-virtual-environment"><a class="header" href="#5-virtual-environment">5. Virtual Environment</a></h3>
+<p><strong>Apa itu Virtual Environment?</strong></p>
+<ul>
+<li>Virtual environment adalah lingkungan terisolasi yang memungkinkan Anda menginstal paket Python tanpa mempengaruhi sistem utama.</li>
+<li>Virtual environment berguna untuk menjaga ketergantungan proyek tetap terisolasi dan terkontrol.</li>
+</ul>
+<p><strong>Membuat Virtual Environment:</strong></p>
+<ul>
+<li>
+<p>Virtual environment dapat dibuat menggunakan modul <code>venv</code>.</p>
+</li>
+<li>
+<p>Contoh:</p>
+<pre><code class="language-sh">python -m venv myenv
+</code></pre>
+</li>
+</ul>
+<p><strong>Mengaktifkan Virtual Environment:</strong></p>
+<ul>
+<li>Virtual environment harus diaktifkan sebelum digunakan.</li>
+<li>Contoh:
+<ul>
+<li>
+<p>Windows:</p>
+<pre><code class="language-sh">myenv\Scripts\activate
+</code></pre>
+</li>
+<li>
+<p>MacOS/Linux:</p>
+<pre><code class="language-sh">source myenv/bin/activate
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>Menginstal Paket dalam Virtual Environment:</strong></p>
+<ul>
+<li>
+<p>Setelah virtual environment aktif, paket dapat diinstal menggunakan <code>pip</code>.</p>
+</li>
+<li>
+<p>Contoh:</p>
+<pre><code class="language-sh">pip install requests
+</code></pre>
+</li>
+</ul>
+<p><strong>Menonaktifkan Virtual Environment:</strong></p>
+<ul>
+<li>
+<p>Virtual environment dapat dinonaktifkan dengan perintah <code>deactivate</code>.</p>
+</li>
+<li>
+<p>Contoh:</p>
+<pre><code class="language-sh">deactivate
+</code></pre>
+</li>
+</ul>
+<h3 id="aktivitas-pembelajaran-4"><a class="header" href="#aktivitas-pembelajaran-4">Aktivitas Pembelajaran</a></h3>
+<p><strong>Latihan Praktik:</strong></p>
+<ol>
+<li>
+<p>Buat modul <code>calculator.py</code> dengan fungsi <code>add</code>, <code>subtract</code>, <code>multiply</code>, dan <code>divide</code>. Impor dan gunakan modul ini dalam program utama.</p>
+<pre><code class="language-python"># calculator.py
+def add(a, b):
+    return a + b
+
+def subtract(a, b):
+    return a - b
+
+def multiply(a, b):
+    return a * b
+
+def divide(a, b):
+    if b == 0:
+        return "Cannot divide by zero"
+    return a / b
+
+# main.py
+import calculator
+
+print(calculator.add(10, 5))        # Output: 15
+print(calculator.subtract(10, 5))   # Output: 5
+print(calculator.multiply(10, 5))   # Output: 50
+print(calculator.divide(10, 5))     # Output: 2.0
+</code></pre>
+</li>
+<li>
+<p>Buat paket <code>shapes</code> dengan modul <code>circle.py</code> dan <code>rectangle.py</code>, masing-masing dengan fungsi untuk menghitung luas dan keliling.</p>
+<pre><code class="language-python"># shapes/circle.py
+import math
+
+def area(radius):
+    return math.pi * radius ** 2
+
+def perimeter(radius):
+    return 2 * math.pi * radius
+
+# shapes/rectangle.py
+def area(width, height):
+    return width * height
+
+def perimeter(width, height):
+    return 2 * (width + height)
+
+# main.py
+from shapes import circle, rectangle
+
+print(circle.area(5))         # Output: 78.53981633974483
+print(circle.perimeter(5))    # Output: 31.41592653589793
+print(rectangle.area(5, 10))  # Output: 50
+print(rectangle.perimeter(5, 10))  # Output: 30
+</code></pre>
+</li>
+</ol>
+<p><strong>Tugas Rumah:</strong></p>
+<ol>
+<li>
+<p>Buat virtual environment untuk proyek baru dan instal paket <code>numpy</code>. Buat program yang menggunakan <code>numpy</code> untuk operasi matematika sederhana.</p>
+<pre><code class="language-python"># Setelah membuat dan mengaktifkan virtual environment, instal numpy
+pip install numpy
+
+# program.py
+import numpy as np
+
+array = np.array([1, 2, 3, 4, 5])
+print(np.mean(array))  # Output: 3.0
+print(np.sum(array))   # Output: 15
+</code></pre>
+</li>
+<li>
+<p>Buat paket <code>utilities</code> dengan modul <code>file_operations.py</code> yang berisi fungsi untuk membaca dan menulis file. Impor dan gunakan modul ini dalam program utama.</p>
+<pre><code class="language-python"># utilities/file_operations.py
+def read_file(file_path):
+    with open(file_path, 'r') as file:
+        return file.read()
+
+def write_file(file_path, content):
+    with open(file_path, 'w') as file:
+        file.write(content)
+
+# main.py
+from utilities import file_operations
+
+file_operations.write_file("test.txt", "Hello, world!")
+content = file_operations.read_file("test.txt")
+print(content)  # Output: Hello, world!
+</code></pre>
+</li>
+</ol>
+<h3 id="referensi-tambahan-4"><a class="header" href="#referensi-tambahan-4">Referensi Tambahan</a></h3>
+<ul>
+<li><a href="https://docs.python.org/3/tutorial/modules.html">Dokumentasi Resmi Python tentang Modul</a></li>
+<li><a href="https://docs.python.org/3/tutorial/venv.html">Panduan Python tentang Virtual Environment</a></li>
+<li><a href="https://www.w3schools.com/python/python_modules.asp">Tutorial Python tentang Modul dan Paket</a></li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+        <script>
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+
+    </div>
+    </body>
+</html>
